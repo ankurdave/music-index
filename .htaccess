@@ -1,0 +1,28 @@
+AcceptPathInfo On
+
+<Files config.php>
+        Order allow,deny
+        Deny from all
+</Files>
+
+<Files initial-index.php>
+        Order allow,deny
+        Deny from all
+</Files>
+
+<Files download.php>
+	XSendFile on
+</Files>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	
+	# Makes it possible to give the music path directly.
+	# http://localhost/music-index/Artist/Album
+	# gets rewritten to
+	# http://localhost/music-index/index.php
+	# (assuming that "$DOCUMENT_ROOT/music-index/Artist" does not exist)
+	# So "index.php" is called, with the variable PATH_INFO set to "/Artist/Album"
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule (.*) index.php/$1
+</IfModule>

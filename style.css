@@ -1,0 +1,60 @@
+body {
+	font-family: Arial, sans-serif;
+	font-size: 10pt;
+	padding: 1em;
+}
+
+h1 {
+	font-family: Cambria, Georgia, serif;
+	font-weight: normal;
+	border-bottom: 0.05em solid #666;
+	padding: 0 0 0.1em 0;
+	margin: 0 0 0.8em 0;
+	line-height: 0.9em;
+}
+
+h2, h3 {
+	font-family: Helvetica, Arial, sans-serif;
+	margin: 1em 0 0.5em 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: #24C;
+}
+
+a:visited {
+	color: #336;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+#search {
+	margin: 0.1em;
+	padding: 0.5em;
+	border: thin solid #BBB;
+	background-color: #FFD;
+/*	float: right;
+	width: 20em;
+
+	-moz-box-shadow: 0 0 0.5em #999;
+	-webkit-box-shadow: 0 0 0.5em #999;
+	box-shadow: 0 0 0.5em #999;
+*/
+}
+
+#search h2 {
+	margin: 0;
+	margin-right: 1em;
+	display: inline;
+	float: left;
+}
+
+table.songs {
+	clear: both;
+}
