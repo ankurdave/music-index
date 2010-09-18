@@ -48,7 +48,7 @@
 <div id="search">
 <h2>Search</h2>
 <form name="search" action="<?=$Config['ScriptRelDir']?>/search" method="GET">
-<input type="text" name="q" value="<?=htmlentities($_GET['q'])?>" />
+<input name="q" type="search" value="<?=htmlentities($_GET['q'])?>">
 <input type="checkbox" name="boolean" id="boolean" /> <label for="boolean">Boolean</label>
 <input type="submit" value="Search" />
 </form>
