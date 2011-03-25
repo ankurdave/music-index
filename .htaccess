@@ -1,5 +1,5 @@
-RewriteEngine On
-RewriteRule (.*) http://www2.ankurdave.com/down.html [L,R=temporary]
+#RewriteEngine On
+#RewriteRule (.*) http://www2.ankurdave.com/down.html [L,R=temporary]
 
 AcceptPathInfo On
 
