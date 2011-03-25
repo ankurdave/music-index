@@ -70,37 +70,22 @@
 
 <?php if (!empty($files)) { ?>
 <h2>Songs</h2>
-<form name="stream" action="<?=$Config['ScriptRelDir']?>/stream" method="GET">
-<p><input type="submit" value="Stream selected" /></p>
-<table class="songs">
-	<tr><th></th><th>Title</th><th>Album</th><th>Artist</th><th>Genre</th><th>Year</th><th>Length</th><th>Bitrate</th></tr>
 <?php
-	foreach ($files as $elem) {
-		$elemAbs = "$absDir/$elem";
-		$elemReq = "$reqDir/$elem";
-		
-		$info = getSongInfo($elemAbs);
-		if (is_null($info['title']) || $info['title'] === '') {
-			$info['title'] = basename($info['path']);
-		}
+songsHeader();
+foreach ($files as $elem) {
+    $elemAbs = "$absDir/$elem";
+    $elemReq = "$reqDir/$elem";
+    
+    $info = getSongInfo($elemAbs);
+    if (is_null($info['title']) || $info['title'] === '') {
+	$info['title'] = basename($info['path']);
+    }
+
+    listSong($info['title'], $info['album'], $info['artist'], $info['genre'], $info['year'], $info['length'], $info['bitrate']);
+}
+songsFooter();
+}
 ?>
-		<tr class="file">
-			<td><input type="checkbox" name="<?=htmlentities($elemReq)?>" /></td>
-			<td><a href="<?=pathurlencode($Config['ScriptRelDir'] . '/download' . $elemReq)?>" title="<?=htmlentities(absToReq($info['path']))?>"><?=htmlentities($info['title'])?></a></td>
-			<td><?=htmlentities($info['album'])?></td>
-			<td><?=htmlentities($info['artist'])?></td>
-			<td><?=htmlentities($info['genre'])?></td>
-			<td><?=htmlentities($info['year'])?></td>
-			<td><?=htmlentities(sprintf('%u:%02u', floor($info['length'] / 60), $info['length'] % 60))?></td>
-			<td><?=htmlentities($info['bitrate'] / 1000)?></td>
-		</tr>
-<?php
-	}
-?>
-</table>
-<p><input type="submit" value="Stream selected" /></p>
-</form>
-<?php } ?>
 
 </div>
 </body>

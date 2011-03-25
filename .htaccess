@@ -13,6 +13,11 @@ AcceptPathInfo On
         Deny from all
 </Files>
 
+<Files index-one.php>
+        Order allow,deny
+        Deny from all
+</Files>
+
 <Files download.php>
 	XSendFile on
 </Files>

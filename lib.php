@@ -81,7 +81,16 @@ function readfile_chunked($filename) {
 function okayToDownload($absPath) {
 	global $Config;
 	
-	return is_readable($absPath) && is_child($Config['MusicDir'], $absPath) && in_array(mime_content_type($absPath), $Config['Types']);
+	return is_readable($absPath) && is_child($Config['MusicDir'], $absPath) && in_array(mime_content_type($absPath), $Config['Types']) && extensionOkay($absPath);
+}
+
+function extensionOkay($absPath) {
+    global $Config;
+    foreach ($Config['Extensions'] as $ext) {
+	if (strripos($absPath, $ext) == strlen($absPath) - strlen($ext))
+	    return true;
+    }
+    return false;
 }
 
 function safeFilename($str) {
@@ -158,7 +167,6 @@ function getSongInfo($absPath) {
 		return false;
 	}
 
-	set_time_limit(10);
 	$infoObj = $getID3->analyze($absPath);
 	if (!$infoObj) {
 		return false;
@@ -279,4 +287,37 @@ function parseQueryString($str) {
   # return result array
   return $arr;
 }
+
+function songsHeader() {
+?>
+<form name="stream" action="<?=$Config['ScriptRelDir']?>/stream" method="GET">
+<p><input type="submit" value="Stream selected" /></p>
+<table class="songs">
+	<tr><th></th><th>Title</th><th>Album</th><th>Artist</th><th>Genre</th><th>Year</th><th>Length</th><th>Bitrate</th></tr>
+<?php
+}
+
+function listSong($title, $album, $artist, $genre, $year, $length, $bitrate) {
+?>
+ 		<tr class="file">
+			<td><input type="checkbox" name="<?=htmlentities(absToReq($path))?>" /></td>
+			<td><a href="<?=pathurlencode($Config['ScriptRelDir'] . '/download' . absToReq($path))?>" title="<?=htmlentities(absToReq($path))?>"><?=htmlentities($title)?></a></td>
+			<td><?=htmlentities($album)?></td>
+			<td><?=htmlentities($artist)?></td>
+			<td><?=htmlentities($genre)?></td>
+			<td><?=htmlentities($year)?></td>
+			<td><?=htmlentities(sprintf('%u:%02u', floor($length / 60), $length % 60))?></td>
+			<td><?=htmlentities($bitrate / 1000)?></td>
+		</tr>
+<?php
+}
+
+function songsFooter() {
+?>
+</table>
+<p><input type="submit" value="Stream selected" /></p>
+</form>
+<?php
+}
+
 ?>

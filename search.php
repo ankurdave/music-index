@@ -59,35 +59,18 @@
 </form>
 </div>
 
-<form name="stream" action="<?=$Config['ScriptRelDir']?>/stream" method="GET">
-<p><input type="submit" value="Stream selected" /></p>
-<table class="songs">
-	<tr><th></th><th>Title</th><th>Album</th><th>Artist</th><th>Genre</th><th>Year</th><th>Length</th><th>Bitrate</th></tr>
-
 <?php
-	while ($query->fetch()) {
-		if (is_null($title) || $title === '') {
-			$title = basename($path);
-		}
+songsHeader();
+while ($query->fetch()) {
+    if (is_null($title) || $title === '') {
+	$title = basename($path);
+    }
+    listSong($title, $album, $artist, $genre, $year, $length, $bitrate);
+}
+$query->free_result();
+$query->close();
+songsFooter();
 ?>
-		<tr class="file">
-			<td><input type="checkbox" name="<?=htmlentities(absToReq($path))?>" /></td>
-			<td><a href="<?=pathurlencode($Config['ScriptRelDir'] . '/download' . absToReq($path))?>" title="<?=htmlentities(absToReq($path))?>"><?=htmlentities($title)?></a></td>
-			<td><?=htmlentities($album)?></td>
-			<td><?=htmlentities($artist)?></td>
-			<td><?=htmlentities($genre)?></td>
-			<td><?=htmlentities($year)?></td>
-			<td><?=htmlentities(sprintf('%u:%02u', floor($length / 60), $length % 60))?></td>
-			<td><?=htmlentities($bitrate / 1000)?></td>
-		</tr>
-<?php
-	}
-	$query->free_result();
-	$query->close();
-?>
-</table>
-<p><input type="submit" value="Stream selected" /></p>
-</form>
 
 </div>
 </body>
