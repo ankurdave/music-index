@@ -23,7 +23,13 @@ foreach (new RecursiveIteratorIterator($it) as $file) {
 
 	// Otherwise, get its info and store it
 	$info = getSongInfo($file->getPathname());
-	echo join(', ', $info), "\n";
+
+	echo "$info[artist] / $info[album] / $info[title] ";
+	foreach ($info as $k => $v) {
+	    if ($v === NULL)
+		echo "[$k]";
+	}
+	echo "\n";
 }
 
 echo "\nDone scanning $dir.\n";

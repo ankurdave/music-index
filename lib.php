@@ -166,23 +166,23 @@ function getSongInfo($absPath) {
 	getid3_lib::CopyTagsToComments($infoObj);
 
 	$info = array(
-		'title' => join(', ', $infoObj['comments']['title']),
-		'album' => join(', ', $infoObj['comments']['album']),
-		'artist' => join(', ', $infoObj['comments']['artist']),
-		'genre' => join(', ', $infoObj['comments']['genre']),
-		'bitrate' => (integer)($infoObj['audio']['bitrate']),
-		'filesize' => (integer)($infoObj['filesize']),
-		'year' => (integer)(mean($infoObj['comments']['year'])),
-		'length' => (float)($infoObj['playtime_seconds']),
+		'title' => commaJoin($infoObj['comments']['title']),
+		'album' => commaJoin($infoObj['comments']['album']),
+		'artist' => commaJoin($infoObj['comments']['artist']),
+		'genre' => commaJoin($infoObj['comments']['genre']),
+		'bitrate' => orNull($infoObj['bitrate']),
+		'filesize' => orNull($infoObj['filesize']),
+		'year' => mean($infoObj['comments']['year']),
+		'length' => orNull($infoObj['playtime_seconds']),
 	);
-	
+
 	// Store the metadata in the DB
 	static $query = null;
 	if ($query == null) $query = $db->prepare('INSERT INTO song (path, title, album, artist, genre, bitrate, filesize, year, length) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
 	$query->bind_param('sssssiiid', $absPath, $info['title'], $info['album'], $info['artist'], $info['genre'], $info['bitrate'], $info['filesize'], $info['year'], $info['length']);
 	$query->execute();
 	
-	print "(fresh)"; // TODO: remove if not debugging
+	print "(fresh) "; // TODO: remove if not debugging
 	return $info;
 }
 
@@ -219,7 +219,27 @@ function findLongestStringInArray($array) {
 }
 
 function mean($array) {
-	return array_sum($array) / count($array);
+	if (count($array) == 0)
+		return NULL;
+	else
+		return array_sum($array) / count($array);
+}
+
+function commaJoin($stringOrArray) {
+    if (empty($stringOrArray))
+	return NULL;
+
+    if (is_array($stringOrArray))
+	return join(', ', $stringOrArray);
+    
+    return $stringOrArray;
+}
+
+function orNull($val) {
+    if (empty($val))
+	return NULL;
+    else
+	return $val;
 }
 
 function pathurlencode($path) {
