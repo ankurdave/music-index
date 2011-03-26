@@ -1,6 +1,10 @@
 body {
 	font-family: Arial, sans-serif;
-	padding: 1em;
+    margin: 0;
+}
+
+#container {
+    padding: 0.8em;
 }
 
 h1 {
@@ -54,6 +58,43 @@ a:hover {
 	float: left;
 }
 
-table.songs {
+.songs {
 	clear: both;
+}
+
+.songs .file {
+    overflow: hidden;
+}
+
+.songs .file a.playlink:hover {
+    background-color: #EEE;
+    text-decoration: none;
+}
+.songs .file a.playlink {
+    display: block;
+    border-bottom: 1px solid #DDD;
+}
+.songs .file .title {
+    display: block;
+    font-weight: bold;
+}
+.songs .file .album {
+    display: block;
+    font-style: italic;
+    color: black;
+}
+.songs .file .artist {
+    display: block;
+    color: black;
+}
+.songs .file .tag {
+    font-weight: normal;
+    font-style: normal;
+    color: #999;
+}
+
+#jquery_player_1 {
+    width: 100%;
+    height: 1em;
+    margin-top: 1em;
 }
