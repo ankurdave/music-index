@@ -7,11 +7,13 @@ if ($argc > 1) {
 }
 
 $it = new RecursiveDirectoryIterator($dir);
+$filter = new FilenameFilter($it, '/\.mp3$/i');
 
 echo "Beginning scan of $dir ...\n\n";
 
-foreach (new RecursiveIteratorIterator($it) as $file) {
+foreach (new RecursiveIteratorIterator($filter) as $file) {
 	if (!okayToDownload($file->getPathname())) {
+		echo "Skipping ", $file->getPathname(), "\n";
 		continue;
 	}
 	
